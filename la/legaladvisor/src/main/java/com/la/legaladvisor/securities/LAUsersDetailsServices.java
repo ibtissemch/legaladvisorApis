@@ -1,4 +1,4 @@
-package com.legaladvisor.securities;
+package com.la.legaladvisor.securities;
 
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
