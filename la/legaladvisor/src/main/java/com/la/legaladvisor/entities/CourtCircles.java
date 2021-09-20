@@ -7,7 +7,18 @@ package com.la.legaladvisor.entities;
 
 import java.io.Serializable;
 import java.util.Collection;
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -17,6 +28,13 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "courtCircles")
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "CourtCircles.findAll", query = "SELECT c FROM CourtCircles c"),
+    @NamedQuery(name = "CourtCircles.findById", query = "SELECT c FROM CourtCircles c WHERE c.id = :id"),
+    @NamedQuery(name = "CourtCircles.findByName", query = "SELECT c FROM CourtCircles c WHERE c.name = :name"),
+    @NamedQuery(name = "CourtCircles.findByAdress", query = "SELECT c FROM CourtCircles c WHERE c.adress = :adress"),
+    @NamedQuery(name = "CourtCircles.findByTel", query = "SELECT c FROM CourtCircles c WHERE c.tel = :tel")})
 public class CourtCircles implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -24,7 +42,7 @@ public class CourtCircles implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
     @Column(name = "name")
     private String name;
     @Column(name = "adress")
@@ -34,21 +52,21 @@ public class CourtCircles implements Serializable {
     @JoinColumn(name = "Courtid", referencedColumnName = "id")
     @ManyToOne
     private Courts courtid;
-    @OneToMany(mappedBy = "courtCircleid")
-    private Collection<Judges> judgesCollection;
+    @OneToMany(mappedBy = "judgeid")
+    private Collection<Missions> missionsCollection;
 
     public CourtCircles() {
     }
 
-    public CourtCircles(Integer id) {
+    public CourtCircles(Long id) {
         this.id = id;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -84,15 +102,6 @@ public class CourtCircles implements Serializable {
         this.courtid = courtid;
     }
 
-    @XmlTransient
-    public Collection<Judges> getJudgesCollection() {
-        return judgesCollection;
-    }
-
-    public void setJudgesCollection(Collection<Judges> judgesCollection) {
-        this.judgesCollection = judgesCollection;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -107,7 +116,18 @@ public class CourtCircles implements Serializable {
             return false;
         }
         CourtCircles other = (CourtCircles) object;
-        return (this.id != null || other.id == null) && (this.id == null || this.id.equals(other.id));
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+
+    public Collection<Missions> getMissionsCollection() {
+        return missionsCollection;
+    }
+
+    public void setMissionsCollection(Collection<Missions> missionsCollection) {
+        this.missionsCollection = missionsCollection;
     }
 
     @Override

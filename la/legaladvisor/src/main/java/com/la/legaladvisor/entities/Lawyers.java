@@ -7,7 +7,18 @@ package com.la.legaladvisor.entities;
 
 import java.io.Serializable;
 import java.util.Collection;
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -17,6 +28,14 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "lawyers")
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "Lawyers.findAll", query = "SELECT l FROM Lawyers l"),
+    @NamedQuery(name = "Lawyers.findById", query = "SELECT l FROM Lawyers l WHERE l.id = :id"),
+    @NamedQuery(name = "Lawyers.findByFirstName", query = "SELECT l FROM Lawyers l WHERE l.firstName = :firstName"),
+    @NamedQuery(name = "Lawyers.findByLastName", query = "SELECT l FROM Lawyers l WHERE l.lastName = :lastName"),
+    @NamedQuery(name = "Lawyers.findByAdresse", query = "SELECT l FROM Lawyers l WHERE l.adresse = :adresse"),
+    @NamedQuery(name = "Lawyers.findByTel", query = "SELECT l FROM Lawyers l WHERE l.tel = :tel")})
 public class Lawyers implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -24,7 +43,7 @@ public class Lawyers implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
     @Column(name = "firstName")
     private String firstName;
     @Column(name = "lastName")
@@ -42,15 +61,15 @@ public class Lawyers implements Serializable {
     public Lawyers() {
     }
 
-    public Lawyers(Integer id) {
+    public Lawyers(Long id) {
         this.id = id;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -109,7 +128,10 @@ public class Lawyers implements Serializable {
             return false;
         }
         Lawyers other = (Lawyers) object;
-        return (this.id != null || other.id == null) && (this.id == null || this.id.equals(other.id));
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
     }
 
     @Override

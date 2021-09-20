@@ -5,19 +5,42 @@
  */
 package com.la.legaladvisor.controllers;
 
-import org.springframework.web.bind.annotation.RestController;
+import com.la.legaladvisor.entities.Calls;
+import com.la.legaladvisor.entities.CourtCircles;
+import com.la.legaladvisor.services.CallsServices;
+import com.la.legaladvisor.services.CourtCirclesService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 
 /**
- *
  * @author Admin
  */
 @RestController
-    public class CourtCirclesController {
+@RequestMapping("/api/courtcircles")
+public class CourtCirclesController {
 
+    @Autowired
+    CourtCirclesService courtCirclesService;
 
+    @GetMapping()
+    List<CourtCircles> getCalls() {
+        return courtCirclesService.getAll();
     }
+
+    @PostMapping()
+    CourtCircles createOrUpdateCalls(CourtCircles courtCircles) {
+        return courtCirclesService.createOrUpdate(courtCircles);
+    }
+
+    @DeleteMapping()
+    void delete(long id) {
+        courtCirclesService.delete(id);
+    }
+
+}

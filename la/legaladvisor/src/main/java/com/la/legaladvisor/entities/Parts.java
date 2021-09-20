@@ -7,7 +7,19 @@ package com.la.legaladvisor.entities;
 
 import java.io.Serializable;
 import java.util.Collection;
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -17,6 +29,15 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "parts")
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "Parts.findAll", query = "SELECT p FROM Parts p"),
+    @NamedQuery(name = "Parts.findById", query = "SELECT p FROM Parts p WHERE p.id = :id"),
+    @NamedQuery(name = "Parts.findByPartType", query = "SELECT p FROM Parts p WHERE p.partType = :partType"),
+    @NamedQuery(name = "Parts.findByName", query = "SELECT p FROM Parts p WHERE p.name = :name"),
+    @NamedQuery(name = "Parts.findByAdresse", query = "SELECT p FROM Parts p WHERE p.adresse = :adresse"),
+    @NamedQuery(name = "Parts.findByTel", query = "SELECT p FROM Parts p WHERE p.tel = :tel"),
+    @NamedQuery(name = "Parts.findByEmail", query = "SELECT p FROM Parts p WHERE p.email = :email")})
 public class Parts implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -24,7 +45,7 @@ public class Parts implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
     @Column(name = "partType")
     private String partType;
     @Column(name = "name")
@@ -46,15 +67,15 @@ public class Parts implements Serializable {
     public Parts() {
     }
 
-    public Parts(Integer id) {
+    public Parts(Long id) {
         this.id = id;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -138,7 +159,10 @@ public class Parts implements Serializable {
             return false;
         }
         Parts other = (Parts) object;
-        return (this.id != null || other.id == null) && (this.id == null || this.id.equals(other.id));
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
     }
 
     @Override

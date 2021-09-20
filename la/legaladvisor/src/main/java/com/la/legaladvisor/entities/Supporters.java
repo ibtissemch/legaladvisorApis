@@ -7,7 +7,19 @@ package com.la.legaladvisor.entities;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -16,6 +28,16 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "supporters")
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "Supporters.findAll", query = "SELECT s FROM Supporters s"),
+    @NamedQuery(name = "Supporters.findById", query = "SELECT s FROM Supporters s WHERE s.id = :id"),
+    @NamedQuery(name = "Supporters.findByName", query = "SELECT s FROM Supporters s WHERE s.name = :name"),
+    @NamedQuery(name = "Supporters.findByNotes", query = "SELECT s FROM Supporters s WHERE s.notes = :notes"),
+    @NamedQuery(name = "Supporters.findByType", query = "SELECT s FROM Supporters s WHERE s.type = :type"),
+    @NamedQuery(name = "Supporters.findByCreationDate", query = "SELECT s FROM Supporters s WHERE s.creationDate = :creationDate"),
+    @NamedQuery(name = "Supporters.findByLastUpdateDate", query = "SELECT s FROM Supporters s WHERE s.lastUpdateDate = :lastUpdateDate"),
+    @NamedQuery(name = "Supporters.findByUrl", query = "SELECT s FROM Supporters s WHERE s.url = :url")})
 public class Supporters implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -23,7 +45,7 @@ public class Supporters implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
     @Column(name = "name")
     private String name;
     @Column(name = "notes")
@@ -47,21 +69,21 @@ public class Supporters implements Serializable {
     public Supporters() {
     }
 
-    public Supporters(Integer id) {
+    public Supporters(Long id) {
         this.id = id;
     }
 
-    public Supporters(Integer id, Date creationDate, Date lastUpdateDate) {
+    public Supporters(Long id, Date creationDate, Date lastUpdateDate) {
         this.id = id;
         this.creationDate = creationDate;
         this.lastUpdateDate = lastUpdateDate;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -135,7 +157,10 @@ public class Supporters implements Serializable {
             return false;
         }
         Supporters other = (Supporters) object;
-        return (this.id != null || other.id == null) && (this.id == null || this.id.equals(other.id));
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
     }
 
     @Override

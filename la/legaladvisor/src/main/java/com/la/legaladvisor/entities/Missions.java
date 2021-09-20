@@ -8,7 +8,20 @@ package com.la.legaladvisor.entities;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -18,6 +31,16 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "missions")
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "Missions.findAll", query = "SELECT m FROM Missions m"),
+    @NamedQuery(name = "Missions.findById", query = "SELECT m FROM Missions m WHERE m.id = :id"),
+    @NamedQuery(name = "Missions.findByNumCase", query = "SELECT m FROM Missions m WHERE m.numCase = :numCase"),
+    @NamedQuery(name = "Missions.findByCaseDate", query = "SELECT m FROM Missions m WHERE m.caseDate = :caseDate"),
+    @NamedQuery(name = "Missions.findBySessionDate", query = "SELECT m FROM Missions m WHERE m.sessionDate = :sessionDate"),
+    @NamedQuery(name = "Missions.findByType", query = "SELECT m FROM Missions m WHERE m.type = :type"),
+    @NamedQuery(name = "Missions.findByNotes", query = "SELECT m FROM Missions m WHERE m.notes = :notes"),
+    @NamedQuery(name = "Missions.findByStatus", query = "SELECT m FROM Missions m WHERE m.status = :status")})
 public class Missions implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -25,7 +48,7 @@ public class Missions implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
     @Column(name = "numCase")
     private String numCase;
     @Basic(optional = false)
@@ -46,6 +69,9 @@ public class Missions implements Serializable {
     @JoinColumn(name = "judgeid", referencedColumnName = "id")
     @ManyToOne
     private Judges judgeid;
+    @JoinColumn(name = "courtCircleid", referencedColumnName = "id")
+    @ManyToOne
+    private CourtCircles courtCircleid;
     @OneToMany(mappedBy = "missionid")
     private Collection<Parts> partsCollection;
     @OneToMany(mappedBy = "missionid")
@@ -54,22 +80,22 @@ public class Missions implements Serializable {
     public Missions() {
     }
 
-    public Missions(Integer id) {
+    public Missions(Long id) {
         this.id = id;
     }
 
-    public Missions(Integer id, Date caseDate, Date sessionDate, int status) {
+    public Missions(Long id, Date caseDate, Date sessionDate, int status) {
         this.id = id;
         this.caseDate = caseDate;
         this.sessionDate = sessionDate;
         this.status = status;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -161,7 +187,18 @@ public class Missions implements Serializable {
             return false;
         }
         Missions other = (Missions) object;
-        return (this.id != null || other.id == null) && (this.id == null || this.id.equals(other.id));
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+
+    public CourtCircles getCourtCircleid() {
+        return courtCircleid;
+    }
+
+    public void setCourtCircleid(CourtCircles courtCircleid) {
+        this.courtCircleid = courtCircleid;
     }
 
     @Override

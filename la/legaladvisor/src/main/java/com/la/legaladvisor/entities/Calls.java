@@ -7,8 +7,20 @@ package com.la.legaladvisor.entities;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -16,6 +28,17 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "calls")
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "Calls.findAll", query = "SELECT c FROM Calls c"),
+    @NamedQuery(name = "Calls.findById", query = "SELECT c FROM Calls c WHERE c.id = :id"),
+    @NamedQuery(name = "Calls.findByName", query = "SELECT c FROM Calls c WHERE c.name = :name"),
+    @NamedQuery(name = "Calls.findByUrl", query = "SELECT c FROM Calls c WHERE c.url = :url"),
+    @NamedQuery(name = "Calls.findByCreationDate", query = "SELECT c FROM Calls c WHERE c.creationDate = :creationDate"),
+    @NamedQuery(name = "Calls.findBySentDate", query = "SELECT c FROM Calls c WHERE c.sentDate = :sentDate"),
+    @NamedQuery(name = "Calls.findByState", query = "SELECT c FROM Calls c WHERE c.state = :state"),
+    @NamedQuery(name = "Calls.findByDuration", query = "SELECT c FROM Calls c WHERE c.duration = :duration"),
+    @NamedQuery(name = "Calls.findByMeetingDate", query = "SELECT c FROM Calls c WHERE c.meetingDate = :meetingDate")})
 public class Calls implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -23,7 +46,7 @@ public class Calls implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
     @Column(name = "name")
     private String name;
     @Column(name = "URL")
@@ -53,11 +76,11 @@ public class Calls implements Serializable {
     public Calls() {
     }
 
-    public Calls(Integer id) {
+    public Calls(Long id) {
         this.id = id;
     }
 
-    public Calls(Integer id, Date creationDate, Date sentDate, int state, int duration, Date meetingDate) {
+    public Calls(Long id, Date creationDate, Date sentDate, int state, int duration, Date meetingDate) {
         this.id = id;
         this.creationDate = creationDate;
         this.sentDate = sentDate;
@@ -66,11 +89,11 @@ public class Calls implements Serializable {
         this.meetingDate = meetingDate;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -152,7 +175,10 @@ public class Calls implements Serializable {
             return false;
         }
         Calls other = (Calls) object;
-        return (this.id != null || other.id == null) && (this.id == null || this.id.equals(other.id));
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
     }
 
     @Override

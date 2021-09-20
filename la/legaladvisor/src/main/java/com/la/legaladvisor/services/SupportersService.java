@@ -5,8 +5,16 @@
  */
 package com.la.legaladvisor.services;
 
+import com.la.legaladvisor.entities.Parts;
+import com.la.legaladvisor.entities.Supporters;
+import com.la.legaladvisor.repositories.PartsRepository;
+import com.la.legaladvisor.repositories.SupportersRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  *
@@ -16,5 +24,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 public class SupportersService {
 
+    @Autowired
+    SupportersRepository supportersRepository;
 
+    public List<Supporters> getAll() {
+        return (List<Supporters>) supportersRepository.findAll();
+    }
+
+    public Supporters createOrUpdate(Supporters supporter) {
+        return supportersRepository.save(supporter);
+    }
+
+    public void delete(Long id) {
+        Optional<Supporters> supporter = supportersRepository.findById(id);
+        supportersRepository.delete(supporter.get());
+    }
 }
