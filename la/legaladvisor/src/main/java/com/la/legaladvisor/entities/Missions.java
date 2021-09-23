@@ -66,6 +66,15 @@ public class Missions implements Serializable {
     @Basic(optional = false)
     @Column(name = "status")
     private int status;
+    @Basic(optional = false)
+    @Column(name = "advance")
+    private double advance;
+    @Basic(optional = false)
+    @Column(name = "proposed_fee")
+    private double proposedFee;
+    @Basic(optional = false)
+    @Column(name = "final_fee")
+    private double finalFee;
     @JoinColumn(name = "judgeid", referencedColumnName = "id")
     @ManyToOne
     private Judges judgeid;
@@ -180,30 +189,4 @@ public class Missions implements Serializable {
         return hash;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Missions)) {
-            return false;
-        }
-        Missions other = (Missions) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    public CourtCircles getCourtCircleid() {
-        return courtCircleid;
-    }
-
-    public void setCourtCircleid(CourtCircles courtCircleid) {
-        this.courtCircleid = courtCircleid;
-    }
-
-    @Override
-    public String toString() {
-        return "com.mycompany.mavenproject1.Missions[ id=" + id + " ]";
-    }
-    
 }

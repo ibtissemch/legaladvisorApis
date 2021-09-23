@@ -16,15 +16,15 @@ public class Users implements Serializable {
     Long id;
     String name;
     String lastName;
-    String PassWord;
-    LocalDateTime LastConnected;
+    String password;
+    LocalDateTime lastConnected;
 
-    public Users(Long id, String name, String lastName, String passWord, LocalDateTime lastConnected) {
+    public Users(Long id, String name, String lastName, String password, LocalDateTime lastConnected) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
-        PassWord = passWord;
-        LastConnected = lastConnected;
+        this.password = password;
+        this.lastConnected = lastConnected;
     }
 
     public Users() {
@@ -54,19 +54,20 @@ public class Users implements Serializable {
         this.lastName = lastName;
     }
 
-    public String getPassWord() {
-        return PassWord;
+
+    public String getPassword() {
+        return password;
     }
 
-    public void setPassWord(String passWord) {
-        PassWord = passWord;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public LocalDateTime getLastConnected() {
-        return LastConnected;
+        return lastConnected;
     }
 
     public void setLastConnected(LocalDateTime lastConnected) {
-        LastConnected = lastConnected;
+        this.lastConnected = lastConnected;
     }
 }

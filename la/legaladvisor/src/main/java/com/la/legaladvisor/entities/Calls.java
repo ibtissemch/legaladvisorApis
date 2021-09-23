@@ -69,6 +69,13 @@ public class Calls implements Serializable {
     @Column(name = "meetingDate")
     @Temporal(TemporalType.TIMESTAMP)
     private Date meetingDate;
+    @Basic(optional = false)
+    @Column(name = "with_inspection")
+    private boolean withInspection;
+    @Basic(optional = false)
+    @Column(name = "inspection_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date inspectionDate;
     @JoinColumn(name = "partid", referencedColumnName = "id")
     @ManyToOne
     private Parts partid;
@@ -167,23 +174,4 @@ public class Calls implements Serializable {
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Calls)) {
-            return false;
-        }
-        Calls other = (Calls) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "com.mycompany.mavenproject1.Calls[ id=" + id + " ]";
-    }
-    
 }

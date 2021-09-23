@@ -5,25 +5,20 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 
-@Entity
-@Table(name = "users")
 public class UsersDto implements Serializable {
 
     private static final long serialVersionUID=1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     Long id;
     String name;
     String lastName;
-    String PassWord;
+    String password;
     LocalDateTime LastConnected;
 
     public UsersDto(Long id, String name, String lastName, String passWord, LocalDateTime lastConnected) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
-        PassWord = passWord;
+        password = passWord;
         LastConnected = lastConnected;
     }
 
@@ -54,12 +49,12 @@ public class UsersDto implements Serializable {
         this.lastName = lastName;
     }
 
-    public String getPassWord() {
-        return PassWord;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPassWord(String passWord) {
-        PassWord = passWord;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public LocalDateTime getLastConnected() {
