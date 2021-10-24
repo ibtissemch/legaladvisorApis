@@ -38,6 +38,7 @@ public class GDriveService {
      */
     private static final List<String> SCOPES = Collections.singletonList(DriveScopes.DRIVE);
     private static final String CREDENTIALS_FILE_PATH = "credentials.json";
+    private static final String FOLDER_TYPE = "application/vnd.google-apps.folder";
     final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
     // Build a new authorized API client service.
     Drive service = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
@@ -93,6 +94,47 @@ public class GDriveService {
         }
     }
 
+    public List<File> getFilesOrFileByName(String FileName) throws IOException, GeneralSecurityException {
+
+        // Print the names and IDs for up to 10 files.
+        FileList result = service.files().list()
+                .setPageSize(10)
+                .setFields("nextPageToken, files(id, name)")
+                .execute();
+        List<File> files = result.getFiles();
+        if (files == null || files.isEmpty()) {
+            System.out.println("No files found.");
+            return null;
+        } else {
+            System.out.println("Files:");
+            for (File file : files) {
+                System.out.printf("%s (%s)\n", file.getName(), file.getId());
+            }
+            return files;
+        }
+    }
+    public List<File> getFilesOrFileByNameAndType(String FileName, String type) throws IOException, GeneralSecurityException {
+
+        // Print the names and IDs for up to 10 files.
+        FileList result = service.files().list()
+                .setQ("mimeType='"+ type +"'")
+                .setQ("name='"+ FileName +"'")
+                .setPageSize(10)
+                .setFields("nextPageToken, files(id, name)")
+                .execute();
+        List<File> files = result.getFiles();
+        if (files == null || files.isEmpty()) {
+            System.out.println("No files found.");
+            return null;
+        } else {
+            System.out.println("Files:");
+            for (File file : files) {
+                System.out.printf("%s (%s)\n", file.getName(), file.getId());
+            }
+            return files;
+        }
+    }
+
 
     public void downloadFile(String fileId) throws IOException {
         OutputStream outputStream = new ByteArrayOutputStream();
@@ -112,5 +154,24 @@ public class GDriveService {
                 .execute();
         System.out.println("File ID: " + file.getId());
         return file;
+    }
+
+    public String createFolder(String numCase) throws Exception {
+        List<File> files = getFilesOrFileByNameAndType(numCase,FOLDER_TYPE);
+        if(files != null) {
+            if(files.size() == 1) {
+                return files.get(0).getId();
+            }
+            throw  new Exception(" on or more file or folders with same");
+        }
+        File fileMetadata = new File();
+        fileMetadata.setName(numCase);
+        fileMetadata.setMimeType(FOLDER_TYPE);
+
+        File file = service.files().create(fileMetadata)
+                .setFields("id")
+                .execute();
+        System.out.println("Folder ID: " + file.getId());
+       return  file.getId();
     }
 }

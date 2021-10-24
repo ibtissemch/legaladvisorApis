@@ -7,6 +7,7 @@ package com.la.legaladvisor.entities;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,16 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "judges")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Judges.findAll", query = "SELECT j FROM Judges j"),
-    @NamedQuery(name = "Judges.findById", query = "SELECT j FROM Judges j WHERE j.id = :id"),
-    @NamedQuery(name = "Judges.findByFirstName", query = "SELECT j FROM Judges j WHERE j.firstName = :firstName"),
-    @NamedQuery(name = "Judges.findByLastName", query = "SELECT j FROM Judges j WHERE j.lastName = :lastName"),
-    @NamedQuery(name = "Judges.findByAdresse", query = "SELECT j FROM Judges j WHERE j.adresse = :adresse"),
-    @NamedQuery(name = "Judges.findByEmail", query = "SELECT j FROM Judges j WHERE j.email = :email"),
-    @NamedQuery(name = "Judges.findByTel", query = "SELECT j FROM Judges j WHERE j.tel = :tel"),
-    @NamedQuery(name = "Judges.findByPoste", query = "SELECT j FROM Judges j WHERE j.poste = :poste")})
+
 public class Judges implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -58,8 +50,8 @@ public class Judges implements Serializable {
     private String tel;
     @Column(name = "poste")
     private String poste;
-    @OneToMany(mappedBy = "judgeid")
-    private Collection<Missions> missionsCollection;
+    @OneToMany(mappedBy = "judge")
+    private List<Mission> missions;
 
     public Judges() {
     }
@@ -124,38 +116,12 @@ public class Judges implements Serializable {
         this.poste = poste;
     }
 
-    @XmlTransient
-    public Collection<Missions> getMissionsCollection() {
-        return missionsCollection;
+    public List<Mission> getMission() {
+        return missions;
     }
 
-    public void setMissionsCollection(Collection<Missions> missionsCollection) {
-        this.missionsCollection = missionsCollection;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Judges)) {
-            return false;
-        }
-        Judges other = (Judges) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "com.mycompany.mavenproject1.Judges[ id=" + id + " ]";
+    public void setMission(List<Mission> missions) {
+        this.missions = missions;
     }
     
 }

@@ -29,6 +29,10 @@ public class JudgesService {
         return (List<Judges>) judgesRepository.findAll();
     }
 
+    public Judges getById(Long id) {
+        return judgesRepository.findById(id).orElse(null);
+    }
+
     public Judges createOrUpdate(Judges judges) {
         return judgesRepository.save(judges);
     }

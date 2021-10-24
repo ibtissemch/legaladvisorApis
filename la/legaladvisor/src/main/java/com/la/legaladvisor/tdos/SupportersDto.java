@@ -7,7 +7,6 @@ package com.la.legaladvisor.tdos;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  *
@@ -20,10 +19,10 @@ public class SupportersDto implements Serializable {
     private String name;
     private String notes;
     private String type;
-    private LocalDateTime creationDate;
-    private LocalDateTime lastUpdateDate;
+    private String creationDate;
+    private String lastUpdateDate;
     private String url;
-    private MissionsDto mission;
+    private MissionDto mission;
 
     public SupportersDto() {
     }
@@ -32,7 +31,7 @@ public class SupportersDto implements Serializable {
         this.id = id;
     }
 
-    public SupportersDto(String name, String notes, String type, LocalDateTime creationDate, LocalDateTime lastUpdateDate, String url) {
+    public SupportersDto(String name, String notes, String type, String creationDate, String lastUpdateDate, String url) {
         this.name = name;
         this.notes = notes;
         this.type = type;
@@ -81,27 +80,27 @@ public class SupportersDto implements Serializable {
         this.url = url;
     }
 
-    public LocalDateTime getCreationDate() {
+    public String getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(LocalDateTime creationDate) {
+    public void setCreationDate(String creationDate) {
         this.creationDate = creationDate;
     }
 
-    public LocalDateTime getLastUpdateDate() {
+    public String getLastUpdateDate() {
         return lastUpdateDate;
     }
 
-    public void setLastUpdateDate(LocalDateTime lastUpdateDate) {
+    public void setLastUpdateDate(String lastUpdateDate) {
         this.lastUpdateDate = lastUpdateDate;
     }
 
-    public MissionsDto getMission() {
+    public MissionDto getMission() {
         return mission;
     }
 
-    public void setMission(MissionsDto mission) {
+    public void setMission(MissionDto mission) {
         this.mission = mission;
     }
 }

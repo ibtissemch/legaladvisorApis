@@ -20,7 +20,7 @@ public class CourtCirclesDto implements Serializable {
     private String name;
     private String adress;
     private String tel;
-    private CourtsDto courtid;
+    private CourtsDto court;
     private List<JudgesDto> partjudgesDto;
 
     public CourtCirclesDto() {
@@ -62,12 +62,12 @@ public class CourtCirclesDto implements Serializable {
         this.tel = tel;
     }
 
-    public CourtsDto getCourtid() {
-        return courtid;
+    public CourtsDto getCourt() {
+        return court;
     }
 
-    public void setCourtid(CourtsDto courtid) {
-        this.courtid = courtid;
+    public void setCourt(CourtsDto court) {
+        this.court = court;
     }
 
     public List<JudgesDto> getPartjudgesDto() {

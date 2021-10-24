@@ -7,6 +7,7 @@ package com.la.legaladvisor.entities;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,13 +29,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "courtCircles")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "CourtCircles.findAll", query = "SELECT c FROM CourtCircles c"),
-    @NamedQuery(name = "CourtCircles.findById", query = "SELECT c FROM CourtCircles c WHERE c.id = :id"),
-    @NamedQuery(name = "CourtCircles.findByName", query = "SELECT c FROM CourtCircles c WHERE c.name = :name"),
-    @NamedQuery(name = "CourtCircles.findByAdress", query = "SELECT c FROM CourtCircles c WHERE c.adress = :adress"),
-    @NamedQuery(name = "CourtCircles.findByTel", query = "SELECT c FROM CourtCircles c WHERE c.tel = :tel")})
 public class CourtCircles implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -49,11 +43,9 @@ public class CourtCircles implements Serializable {
     private String adress;
     @Column(name = "tel")
     private String tel;
-    @JoinColumn(name = "Courtid", referencedColumnName = "id")
+    @JoinColumn(name = "Court", referencedColumnName = "id")
     @ManyToOne
-    private Courts courtid;
-    @OneToMany(mappedBy = "judgeid")
-    private Collection<Missions> missionsCollection;
+    private Courts court;
 
     public CourtCircles() {
     }
@@ -95,44 +87,12 @@ public class CourtCircles implements Serializable {
     }
 
     public Courts getCourtid() {
-        return courtid;
+        return court;
     }
 
     public void setCourtid(Courts courtid) {
-        this.courtid = courtid;
+        this.court = courtid;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof CourtCircles)) {
-            return false;
-        }
-        CourtCircles other = (CourtCircles) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    public Collection<Missions> getMissionsCollection() {
-        return missionsCollection;
-    }
-
-    public void setMissionsCollection(Collection<Missions> missionsCollection) {
-        this.missionsCollection = missionsCollection;
-    }
-
-    @Override
-    public String toString() {
-        return "com.mycompany.mavenproject1.CourtCircles[ id=" + id + " ]";
-    }
-    
 }

@@ -2,7 +2,6 @@ package com.la.legaladvisor.tdos;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 
 public class UsersDto implements Serializable {
@@ -12,9 +11,9 @@ public class UsersDto implements Serializable {
     String name;
     String lastName;
     String password;
-    LocalDateTime LastConnected;
+    String LastConnected;
 
-    public UsersDto(Long id, String name, String lastName, String passWord, LocalDateTime lastConnected) {
+    public UsersDto(Long id, String name, String lastName, String passWord, String lastConnected) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
@@ -57,11 +56,11 @@ public class UsersDto implements Serializable {
         this.password = password;
     }
 
-    public LocalDateTime getLastConnected() {
+    public String getLastConnected() {
         return LastConnected;
     }
 
-    public void setLastConnected(LocalDateTime lastConnected) {
+    public void setLastConnected(String lastConnected) {
         LastConnected = lastConnected;
     }
 }

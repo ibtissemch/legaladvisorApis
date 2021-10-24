@@ -25,7 +25,7 @@ public class JudgesDto implements Serializable {
     private String email;
     private String tel;
     private String poste;
-    private List<MissionsDto> missionsDtos;
+    private List<MissionDto> missionsDtos;
     private CourtCirclesDto courtCircleid;
 
     public JudgesDto() {
@@ -91,11 +91,11 @@ public class JudgesDto implements Serializable {
         this.poste = poste;
     }
 
-    public List<MissionsDto> getMissionsDtos() {
+    public List<MissionDto> getMissionDtos() {
         return missionsDtos;
     }
 
-    public void setMissionsDtos(List<MissionsDto> missionsDtos) {
+    public void setMissionDtos(List<MissionDto> missionsDtos) {
         this.missionsDtos = missionsDtos;
     }
 

@@ -1,5 +1,9 @@
 package com.la.legaladvisor.entities;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.la.legaladvisor.convertors.LocalDateTimeAttributeConverter;
+import com.la.legaladvisor.convertors.LocalDateTimeSerializer;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -17,7 +21,9 @@ public class Users implements Serializable {
     String name;
     String lastName;
     String password;
-    LocalDateTime lastConnected;
+    @Convert(converter = LocalDateTimeAttributeConverter.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    private  LocalDateTime lastConnected;
 
     public Users(Long id, String name, String lastName, String password, LocalDateTime lastConnected) {
         this.id = id;

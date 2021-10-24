@@ -7,6 +7,7 @@ package com.la.legaladvisor.services;
 
 import com.la.legaladvisor.entities.CourtCircles;
 import com.la.legaladvisor.entities.Courts;
+import com.la.legaladvisor.entities.Judges;
 import com.la.legaladvisor.repositories.CourtCirclesRepository;
 import com.la.legaladvisor.repositories.CourtRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,11 @@ public class CourtCirclesService {
 
     public List<CourtCircles> getAll() {
         return (List<CourtCircles>) courtCirclesRepository.findAll();
+    }
+
+
+    public CourtCircles getById(Long id) {
+        return courtCirclesRepository.findById(id).orElse(null);
     }
 
     public CourtCircles createOrUpdate(CourtCircles courtCircles) {

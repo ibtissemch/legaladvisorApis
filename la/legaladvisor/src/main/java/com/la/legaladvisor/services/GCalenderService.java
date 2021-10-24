@@ -14,6 +14,7 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.Event;
+import com.google.api.services.calendar.model.EventAttendee;
 import com.google.api.services.calendar.model.EventDateTime;
 import com.google.api.services.calendar.model.EventReminder;
 import org.springframework.stereotype.Service;
@@ -93,37 +94,35 @@ public class GCalenderService {
         System.out.println("cal message:" + message);
     }
 
-    public void insert() throws IOException {
+    public void insert(String title , String location, String description , DateTime startDateTime,DateTime endDateTime , List<EventAttendee> attendees ) throws IOException {
         // Create a new calendar
         Event event = new Event()
-                .setSummary("Google I/O 2015")
-                .setLocation("800 Howard St., San Francisco, CA 94103")
-                .setDescription("A chance to hear more about Google's developer products.");
+                .setSummary(title)
+                .setLocation(location)
+                .setDescription(description);
 
-        DateTime startDateTime = new DateTime("2021-09-28T09:00:00-07:00");
+        // DateTime startDateTime = new DateTime("2021-09-28T09:00:00-07:00");
         EventDateTime start = new EventDateTime()
-                .setDateTime(startDateTime)
-                .setTimeZone("America/Los_Angeles");
+                .setDateTime(startDateTime);
         event.setStart(start);
 
-        DateTime endDateTime = new DateTime("2021-09-28T17:00:00-07:00");
+        // DateTime endDateTime = new DateTime("2021-09-28T17:00:00-07:00");
         EventDateTime end = new EventDateTime()
-                .setDateTime(endDateTime)
-                .setTimeZone("America/Los_Angeles");
+                .setDateTime(endDateTime);
         event.setEnd(end);
 
-        String[] recurrence = new String[] {"RRULE:FREQ=DAILY;COUNT=2"};
-        event.setRecurrence(Arrays.asList(recurrence));
+        // String[] recurrence = new String[] {"RRULE:FREQ=DAILY;COUNT=2"};
+        // event.setRecurrence(Arrays.asList(recurrence));
 
        /* EventAttendee[] attendees = new EventAttendee[] {
                 new EventAttendee().setEmail("lpage@example.com"),
                 new EventAttendee().setEmail("sbrin@example.com"),
-        };
-        event.setAttendees(Arrays.asList(attendees));
-*/
+        };*/
+        event.setAttendees(attendees);
+
         EventReminder[] reminderOverrides = new EventReminder[] {
                 new EventReminder().setMethod("email").setMinutes(24 * 60),
-                new EventReminder().setMethod("popup").setMinutes(10),
+                new EventReminder().setMethod("popup").setMinutes(30),
         };
         Event.Reminders reminders = new Event.Reminders()
                 .setUseDefault(false)

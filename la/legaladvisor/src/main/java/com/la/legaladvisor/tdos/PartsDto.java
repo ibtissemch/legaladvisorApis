@@ -22,11 +22,16 @@ public class PartsDto implements Serializable {
     private String partType;
     private String name;
     private String adresse;
+    private boolean willPay;
+    private Long advance;
+    private Long totalfee;
+    private String registreCommercial;
     private String tel;
     private String email;
     private List<LawyersDto> lawyers;
     private List<CallsDto> calls;
-    private MissionsDto mission;
+    private MissionDto mission;
+    private boolean lawyerContact;
 
     public PartsDto() {
     }
@@ -59,12 +64,28 @@ public class PartsDto implements Serializable {
         this.name = name;
     }
 
-    public String getAdresse() {
-        return adresse;
+    public boolean isWillPay() {
+        return willPay;
     }
 
-    public void setAdresse(String adresse) {
-        this.adresse = adresse;
+    public void setWillPay(boolean willPay) {
+        this.willPay = willPay;
+    }
+
+    public Long getAdvance() {
+        return advance;
+    }
+
+    public void setAdvance(Long advance) {
+        this.advance = advance;
+    }
+
+    public Long getTotalfee() {
+        return totalfee;
+    }
+
+    public void setTotalfee(Long totalfee) {
+        this.totalfee = totalfee;
     }
 
     public String getTel() {
@@ -99,11 +120,35 @@ public class PartsDto implements Serializable {
         this.calls = calls;
     }
 
-    public MissionsDto getMission() {
+    public MissionDto getMission() {
         return mission;
     }
 
-    public void setMission(MissionsDto mission) {
+    public void setMission(MissionDto mission) {
         this.mission = mission;
+    }
+
+    public boolean isLawyerContact() {
+        return lawyerContact;
+    }
+
+    public void setLawyerContact(boolean lawyerContact) {
+        this.lawyerContact = lawyerContact;
+    }
+
+    public String getAdresse() {
+        return adresse;
+    }
+
+    public void setAdresse(String adresse) {
+        this.adresse = adresse;
+    }
+
+    public String getRegistreCommercial() {
+        return registreCommercial;
+    }
+
+    public void setRegistreCommercial(String registreCommercial) {
+        this.registreCommercial = registreCommercial;
     }
 }

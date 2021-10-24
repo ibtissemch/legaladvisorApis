@@ -23,6 +23,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/courtcircles")
+@CrossOrigin("*")
 public class CourtCirclesController {
 
     @Autowired

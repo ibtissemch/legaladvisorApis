@@ -39,4 +39,8 @@ public class SupportersService {
         Optional<Supporters> supporter = supportersRepository.findById(id);
         supportersRepository.delete(supporter.get());
     }
+
+    public Supporters getById(Long id) {
+        return supportersRepository.findById(id).orElse(null);
+    }
 }

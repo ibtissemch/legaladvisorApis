@@ -5,9 +5,9 @@
  */
 package com.la.legaladvisor.controllers;
 
-import com.la.legaladvisor.entities.Missions;
+import com.la.legaladvisor.entities.Mission;
 import com.la.legaladvisor.entities.Parts;
-import com.la.legaladvisor.services.MissionsService;
+import com.la.legaladvisor.services.MissionService;
 import com.la.legaladvisor.services.PartsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

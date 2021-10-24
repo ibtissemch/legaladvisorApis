@@ -6,7 +6,6 @@
 package com.la.legaladvisor.tdos;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * @author Admin
@@ -18,11 +17,11 @@ public class CallsDto implements Serializable {
     private Long id;
     private String name;
     private String url;
-    private LocalDateTime creationDate;
-    private LocalDateTime sentDate;
+    private String creationDate;
+    private String sentDate;
     private int state;
     private int duration;
-    private LocalDateTime meetingDate;
+    private String meetingDate;
     private PartsDto part;
 
     public CallsDto() {
@@ -32,7 +31,7 @@ public class CallsDto implements Serializable {
         this.id = id;
     }
 
-    public CallsDto(String name, String url, LocalDateTime creationDate, LocalDateTime sentDate, int state, int duration, LocalDateTime meetingDate, PartsDto part) {
+    public CallsDto(String name, String url, String creationDate, String sentDate, int state, int duration, String meetingDate, PartsDto part) {
         this.name = name;
         this.url = url;
         this.creationDate = creationDate;
@@ -91,27 +90,27 @@ public class CallsDto implements Serializable {
         this.part = part;
     }
 
-    public LocalDateTime getCreationDate() {
+    public String getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(LocalDateTime creationDate) {
+    public void setCreationDate(String creationDate) {
         this.creationDate = creationDate;
     }
 
-    public LocalDateTime getSentDate() {
+    public String getSentDate() {
         return sentDate;
     }
 
-    public void setSentDate(LocalDateTime sentDate) {
+    public void setSentDate(String sentDate) {
         this.sentDate = sentDate;
     }
 
-    public LocalDateTime getMeetingDate() {
+    public String getMeetingDate() {
         return meetingDate;
     }
 
-    public void setMeetingDate(LocalDateTime meetingDate) {
+    public void setMeetingDate(String meetingDate) {
         this.meetingDate = meetingDate;
     }
 

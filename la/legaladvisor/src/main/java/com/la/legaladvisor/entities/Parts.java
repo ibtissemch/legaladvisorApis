@@ -7,6 +7,7 @@ package com.la.legaladvisor.entities;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,15 +30,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "parts")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Parts.findAll", query = "SELECT p FROM Parts p"),
-    @NamedQuery(name = "Parts.findById", query = "SELECT p FROM Parts p WHERE p.id = :id"),
-    @NamedQuery(name = "Parts.findByPartType", query = "SELECT p FROM Parts p WHERE p.partType = :partType"),
-    @NamedQuery(name = "Parts.findByName", query = "SELECT p FROM Parts p WHERE p.name = :name"),
-    @NamedQuery(name = "Parts.findByAdresse", query = "SELECT p FROM Parts p WHERE p.adresse = :adresse"),
-    @NamedQuery(name = "Parts.findByTel", query = "SELECT p FROM Parts p WHERE p.tel = :tel"),
-    @NamedQuery(name = "Parts.findByEmail", query = "SELECT p FROM Parts p WHERE p.email = :email")})
 public class Parts implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -58,13 +50,21 @@ public class Parts implements Serializable {
     private String tel;
     @Column(name = "email")
     private String email;
-    @ManyToMany(mappedBy = "partsCollection")
-    private Collection<Lawyers> lawyersCollection;
-    @OneToMany(mappedBy = "partid")
-    private Collection<Calls> callsCollection;
-    @JoinColumn(name = "missionid", referencedColumnName = "id")
+    @Column(name = "willpay")
+    private boolean willPay;
+    @Column(name = "advance")
+    private Long advance;
+    @Column(name = "totalfee")
+    private Long totalfee;
+    @Column(name = "lawyerContact")
+    private boolean lawyerContact;
+    @ManyToMany(mappedBy = "parts")
+    private List<Lawyers> lawyers;
+    @OneToMany(mappedBy = "part")
+    private List<Calls> calls;
+    @JoinColumn(name = "mission", referencedColumnName = "id")
     @ManyToOne
-    private Missions missionid;
+    private Mission mission;
 
     public Parts() {
     }
@@ -97,6 +97,7 @@ public class Parts implements Serializable {
         this.name = name;
     }
 
+
     public String getAdresse() {
         return adresse;
     }
@@ -121,37 +122,67 @@ public class Parts implements Serializable {
         this.email = email;
     }
 
-    @XmlTransient
-    public Collection<Lawyers> getLawyersCollection() {
-        return lawyersCollection;
+    public String getRegistreCommercial() {
+        return registreCommercial;
     }
 
-    public void setLawyersCollection(Collection<Lawyers> lawyersCollection) {
-        this.lawyersCollection = lawyersCollection;
+    public void setRegistreCommercial(String registreCommercial) {
+        this.registreCommercial = registreCommercial;
     }
 
-    @XmlTransient
-    public Collection<Calls> getCallsCollection() {
-        return callsCollection;
+    public boolean isWillPay() {
+        return willPay;
     }
 
-    public void setCallsCollection(Collection<Calls> callsCollection) {
-        this.callsCollection = callsCollection;
+    public void setWillPay(boolean willPay) {
+        this.willPay = willPay;
     }
 
-    public Missions getMissionid() {
-        return missionid;
+    public boolean isLawyerContact() {
+        return lawyerContact;
     }
 
-    public void setMissionid(Missions missionid) {
-        this.missionid = missionid;
+    public void setLawyerContact(boolean lawyerContact) {
+        this.lawyerContact = lawyerContact;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
+    public List<Lawyers> getLawyers() {
+        return lawyers;
     }
 
+    public void setLawyers(List<Lawyers> lawyers) {
+        this.lawyers = lawyers;
+    }
+
+    public List<Calls> getCalls() {
+        return calls;
+    }
+
+    public void setCalls(List<Calls> calls) {
+        this.calls = calls;
+    }
+
+    public Mission getMission() {
+        return mission;
+    }
+
+    public void setMission(Mission mission) {
+        this.mission = mission;
+    }
+
+    public Long getAdvance() {
+        return advance;
+    }
+
+    public void setAdvance(Long advance) {
+        this.advance = advance;
+    }
+
+    public Long getTotalfee() {
+        return totalfee;
+    }
+
+    public void setTotalfee(Long totalfee) {
+        this.totalfee = totalfee;
+    }
 }

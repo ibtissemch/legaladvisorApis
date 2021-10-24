@@ -5,21 +5,15 @@
  */
 package com.la.legaladvisor.entities;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.la.legaladvisor.convertors.LocalDateTimeAttributeConverter;
+import com.la.legaladvisor.convertors.LocalDateTimeSerializer;
+
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -28,17 +22,6 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "calls")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Calls.findAll", query = "SELECT c FROM Calls c"),
-    @NamedQuery(name = "Calls.findById", query = "SELECT c FROM Calls c WHERE c.id = :id"),
-    @NamedQuery(name = "Calls.findByName", query = "SELECT c FROM Calls c WHERE c.name = :name"),
-    @NamedQuery(name = "Calls.findByUrl", query = "SELECT c FROM Calls c WHERE c.url = :url"),
-    @NamedQuery(name = "Calls.findByCreationDate", query = "SELECT c FROM Calls c WHERE c.creationDate = :creationDate"),
-    @NamedQuery(name = "Calls.findBySentDate", query = "SELECT c FROM Calls c WHERE c.sentDate = :sentDate"),
-    @NamedQuery(name = "Calls.findByState", query = "SELECT c FROM Calls c WHERE c.state = :state"),
-    @NamedQuery(name = "Calls.findByDuration", query = "SELECT c FROM Calls c WHERE c.duration = :duration"),
-    @NamedQuery(name = "Calls.findByMeetingDate", query = "SELECT c FROM Calls c WHERE c.meetingDate = :meetingDate")})
 public class Calls implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -53,12 +36,14 @@ public class Calls implements Serializable {
     private String url;
     @Basic(optional = false)
     @Column(name = "creationDate")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date creationDate;
+    @Convert(converter = LocalDateTimeAttributeConverter.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    private LocalDateTime creationDate;
     @Basic(optional = false)
     @Column(name = "sentDate")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date sentDate;
+    @Convert(converter = LocalDateTimeAttributeConverter.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    private LocalDateTime sentDate;
     @Basic(optional = false)
     @Column(name = "state")
     private int state;
@@ -67,18 +52,22 @@ public class Calls implements Serializable {
     private int duration;
     @Basic(optional = false)
     @Column(name = "meetingDate")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date meetingDate;
+    @Convert(converter = LocalDateTimeAttributeConverter.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    private LocalDateTime meetingDate;
     @Basic(optional = false)
     @Column(name = "with_inspection")
     private boolean withInspection;
+    @Column(name = "duration_inspec")
+    private int durationInspec;
     @Basic(optional = false)
     @Column(name = "inspection_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date inspectionDate;
+    @Convert(converter = LocalDateTimeAttributeConverter.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    private LocalDateTime inspectionDate;
     @JoinColumn(name = "partid", referencedColumnName = "id")
     @ManyToOne
-    private Parts partid;
+    private Parts part;
 
     public Calls() {
     }
@@ -87,7 +76,7 @@ public class Calls implements Serializable {
         this.id = id;
     }
 
-    public Calls(Long id, Date creationDate, Date sentDate, int state, int duration, Date meetingDate) {
+    public Calls(Long id, LocalDateTime creationDate, LocalDateTime sentDate, int state, int duration, LocalDateTime meetingDate) {
         this.id = id;
         this.creationDate = creationDate;
         this.sentDate = sentDate;
@@ -120,19 +109,19 @@ public class Calls implements Serializable {
         this.url = url;
     }
 
-    public Date getCreationDate() {
+    public LocalDateTime getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Date creationDate) {
+    public void setCreationDate (LocalDateTime creationDate) {
         this.creationDate = creationDate;
     }
 
-    public Date getSentDate() {
+    public LocalDateTime getSentDate() {
         return sentDate;
     }
 
-    public void setSentDate(Date sentDate) {
+    public void setSentDate (LocalDateTime sentDate) {
         this.sentDate = sentDate;
     }
 
@@ -152,26 +141,51 @@ public class Calls implements Serializable {
         this.duration = duration;
     }
 
-    public Date getMeetingDate() {
+    public LocalDateTime getMeetingDate() {
         return meetingDate;
     }
 
-    public void setMeetingDate(Date meetingDate) {
+    public void setMeetingDate (LocalDateTime meetingDate) {
         this.meetingDate = meetingDate;
     }
 
     public Parts getPartid() {
-        return partid;
+        return part;
     }
 
     public void setPartid(Parts partid) {
-        this.partid = partid;
+        this.part = partid;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
+    public boolean isWithInspection() {
+        return withInspection;
+    }
+
+    public void setWithInspection(boolean withInspection) {
+        this.withInspection = withInspection;
+    }
+
+    public int getDurationInspec() {
+        return durationInspec;
+    }
+
+    public void setDurationInspec(int durationInspec) {
+        this.durationInspec = durationInspec;
+    }
+
+    public LocalDateTime getInspectionDate() {
+        return inspectionDate;
+    }
+
+    public void setInspectionDate(LocalDateTime inspectionDate) {
+        this.inspectionDate = inspectionDate;
+    }
+
+    public Parts getPart() {
+        return part;
+    }
+
+    public void setPart(Parts part) {
+        this.part = part;
     }
 }

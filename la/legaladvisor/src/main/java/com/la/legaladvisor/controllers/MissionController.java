@@ -5,38 +5,33 @@
  */
 package com.la.legaladvisor.controllers;
 
-import com.la.legaladvisor.entities.Judges;
-import com.la.legaladvisor.entities.Missions;
-import com.la.legaladvisor.services.JudgesService;
-import com.la.legaladvisor.services.MissionsService;
+import com.la.legaladvisor.entities.Mission;
+import com.la.legaladvisor.services.MissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.*;
-import javax.xml.bind.annotation.XmlTransient;
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 /**
  * @author Admin
  */
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/api/missions")
-public class MissionsController {
+public class MissionController {
 
     @Autowired
-    MissionsService missionsService;
+    MissionService missionsService;
 
     @GetMapping()
-    List<Missions> getCalls() {
+    List<Mission> getCalls() {
         return missionsService.getAll();
     }
 
     @PostMapping()
-    Missions createOrUpdateCalls(Missions missions) {
-        return missionsService.createOrUpdate(missions);
+    Mission createOrUpdateCalls(@RequestParam("mission") String missions, @RequestParam(value = "files",required = false) List<MultipartFile> files) {
+        return missionsService.createOrUpdate(missions,files);
     }
 
     @DeleteMapping()

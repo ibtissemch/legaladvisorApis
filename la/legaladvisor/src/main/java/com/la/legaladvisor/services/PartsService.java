@@ -5,8 +5,9 @@
  */
 package com.la.legaladvisor.services;
 
+import com.la.legaladvisor.entities.CourtCircles;
 import com.la.legaladvisor.entities.Parts;
-import com.la.legaladvisor.repositories.MissionsRepository;
+import com.la.legaladvisor.repositories.MissionRepository;
 import com.la.legaladvisor.repositories.PartsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,10 @@ public class PartsService {
 
     public Parts createOrUpdate(Parts parts) {
         return partsRepository.save(parts);
+    }
+
+    public Parts getById(Long id) {
+        return partsRepository.findById(id).orElse(null);
     }
 
     public void delete(Long id) {

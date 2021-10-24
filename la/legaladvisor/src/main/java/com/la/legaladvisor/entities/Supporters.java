@@ -5,21 +5,14 @@
  */
 package com.la.legaladvisor.entities;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.la.legaladvisor.convertors.LocalDateTimeAttributeConverter;
+import com.la.legaladvisor.convertors.LocalDateTimeSerializer;
+
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -28,16 +21,6 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "supporters")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Supporters.findAll", query = "SELECT s FROM Supporters s"),
-    @NamedQuery(name = "Supporters.findById", query = "SELECT s FROM Supporters s WHERE s.id = :id"),
-    @NamedQuery(name = "Supporters.findByName", query = "SELECT s FROM Supporters s WHERE s.name = :name"),
-    @NamedQuery(name = "Supporters.findByNotes", query = "SELECT s FROM Supporters s WHERE s.notes = :notes"),
-    @NamedQuery(name = "Supporters.findByType", query = "SELECT s FROM Supporters s WHERE s.type = :type"),
-    @NamedQuery(name = "Supporters.findByCreationDate", query = "SELECT s FROM Supporters s WHERE s.creationDate = :creationDate"),
-    @NamedQuery(name = "Supporters.findByLastUpdateDate", query = "SELECT s FROM Supporters s WHERE s.lastUpdateDate = :lastUpdateDate"),
-    @NamedQuery(name = "Supporters.findByUrl", query = "SELECT s FROM Supporters s WHERE s.url = :url")})
 public class Supporters implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -54,17 +37,19 @@ public class Supporters implements Serializable {
     private String type;
     @Basic(optional = false)
     @Column(name = "creationDate")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date creationDate;
+    @Convert(converter = LocalDateTimeAttributeConverter.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    private LocalDateTime creationDate;
     @Basic(optional = false)
     @Column(name = "lastUpdateDate")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date lastUpdateDate;
+    @Convert(converter = LocalDateTimeAttributeConverter.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    private LocalDateTime lastUpdateDate;
     @Column(name = "URL")
     private String url;
-    @JoinColumn(name = "missionid", referencedColumnName = "id")
+    @JoinColumn(name = "mission", referencedColumnName = "id")
     @ManyToOne
-    private Missions missionid;
+    private Mission mission;
 
     public Supporters() {
     }
@@ -73,7 +58,7 @@ public class Supporters implements Serializable {
         this.id = id;
     }
 
-    public Supporters(Long id, Date creationDate, Date lastUpdateDate) {
+    public Supporters(Long id, LocalDateTime creationDate, LocalDateTime lastUpdateDate) {
         this.id = id;
         this.creationDate = creationDate;
         this.lastUpdateDate = lastUpdateDate;
@@ -111,19 +96,19 @@ public class Supporters implements Serializable {
         this.type = type;
     }
 
-    public Date getCreationDate() {
+    public LocalDateTime getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Date creationDate) {
+    public void setCreationDate(LocalDateTime creationDate) {
         this.creationDate = creationDate;
     }
 
-    public Date getLastUpdateDate() {
+    public LocalDateTime getLastUpdateDate() {
         return lastUpdateDate;
     }
 
-    public void setLastUpdateDate(Date lastUpdateDate) {
+    public void setLastUpdateDate(LocalDateTime lastUpdateDate) {
         this.lastUpdateDate = lastUpdateDate;
     }
 
@@ -135,37 +120,11 @@ public class Supporters implements Serializable {
         this.url = url;
     }
 
-    public Missions getMissionid() {
-        return missionid;
+    public Mission getMission() {
+        return mission;
     }
 
-    public void setMissionid(Missions missionid) {
-        this.missionid = missionid;
+    public void setMission(Mission mission) {
+        this.mission = mission;
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Supporters)) {
-            return false;
-        }
-        Supporters other = (Supporters) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "com.mycompany.mavenproject1.Supporters[ id=" + id + " ]";
-    }
-    
 }
